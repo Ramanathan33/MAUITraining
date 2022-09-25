@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA1Wms5eN/70+yd1hht/2LNgAAAAACAAAAAAAQZgAAAAEAACAAAAA20IlTikNS7OguTm2l2IoZDA5LxdV7goMB0capVUYOfQAAAAAOgAAAAAIAACAAAAAvPhUM8EybjOUQaafRqoSw/qq6e/sll9j/lmK3mKgRQiAAAABrzv37xW9tBxA7wkPMPU7Sl/f3oVhX8BJlvt9Rd6Mb7UAAAABQcUqft2pioiX6lJdBNBi9m1XteZ2NfBrcHAnU/0opcipinNEXgdSX2LaNku8HAwbAvXN4QgARDzNjttFHuNsZ</EncryptedPassword>
+    <_PublishTargetUrl>ftp://160.153.155.181/httpdocs</_PublishTargetUrl>
+    <History>True|2022-09-21T16:14:56.8325396Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="APIServices.Data.dll">
+      <publishTime>09/21/2022 21:39:54</publishTime>
+    </File>
+    <File Include="APIServices.Data.pdb">
+      <publishTime>09/21/2022 21:39:54</publishTime>
+    </File>
+    <File Include="APIServices.deps.json">
+      <publishTime>09/21/2022 21:40:12</publishTime>
+    </File>
+    <File Include="APIServices.dll">
+      <publishTime>09/21/2022 21:40:07</publishTime>
+    </File>
+    <File Include="APIServices.exe">
+      <publishTime>09/21/2022 21:40:09</publishTime>
+    </File>
+    <File Include="APIServices.pdb">
+      <publishTime>09/21/2022 21:40:07</publishTime>
+    </File>
+    <File Include="APIServices.runtimeconfig.json">
+      <publishTime>09/21/2022 21:40:13</publishTime>
+    </File>
+    <File Include="appsettings.Development.json">
+      <publishTime>09/18/2022 18:26:50</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>09/18/2022 17:23:59</publishTime>
+    </File>
+    <File Include="Microsoft.Data.Sqlite.dll">
+      <publishTime>08/15/2022 23:00:26</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Abstractions.dll">
+      <publishTime>08/15/2022 22:59:26</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.dll">
+      <publishTime>08/15/2022 22:59:58</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>08/15/2022 23:00:18</publishTime>
+    </File>
+    <File Include="Microsoft.EntityFrameworkCore.Sqlite.dll">
+      <publishTime>08/15/2022 23:00:30</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>01/15/2022 01:24:16</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.DependencyModel.dll">
+      <publishTime>10/23/2021 05:17:38</publishTime>
+    </File>
+    <File Include="Microsoft.OpenApi.dll">
+      <publishTime>08/30/2020 01:44:12</publishTime>
+    </File>
+    <File Include="runtimes/alpine-x64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-arm/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-arm64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-armel/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-mips64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-musl-x64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-s390x/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-x64/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/linux-x86/native/libe_sqlite3.so">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/osx-arm64/native/libe_sqlite3.dylib">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/osx-x64/native/libe_sqlite3.dylib">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/win-arm/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/win-arm64/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/win-x64/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="runtimes/win-x86/native/e_sqlite3.dll">
+      <publishTime>09/03/2021 23:32:06</publishTime>
+    </File>
+    <File Include="SQLitePCLRaw.batteries_v2.dll">
+      <publishTime>09/03/2021 23:34:58</publishTime>
+    </File>
+    <File Include="SQLitePCLRaw.core.dll">
+      <publishTime>09/03/2021 23:34:16</publishTime>
+    </File>
+    <File Include="SQLitePCLRaw.provider.e_sqlite3.dll">
+      <publishTime>09/03/2021 23:34:26</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.Swagger.dll">
+      <publishTime>10/16/2021 18:24:10</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
+      <publishTime>10/16/2021 18:24:36</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerUI.dll">
+      <publishTime>10/16/2021 18:24:30</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>09/21/2022 21:41:45</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

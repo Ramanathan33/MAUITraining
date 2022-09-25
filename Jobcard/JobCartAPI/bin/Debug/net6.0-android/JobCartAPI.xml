@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JobCartAPI</name>
+    </assembly>
+    <members>
+        <member name="P:JobCartAPI.ViewModels.JobListViewModel.IsRefreshing">
+            <inheritdoc cref="F:JobCartAPI.ViewModels.JobListViewModel.isRefreshing"/>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobListViewModel.Title">
+            <inheritdoc cref="F:JobCartAPI.ViewModels.JobListViewModel.title"/>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobListViewModel.Id">
+            <inheritdoc cref="F:JobCartAPI.ViewModels.JobListViewModel.id"/>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobListViewModel.IsLoading">
+            <inheritdoc cref="F:JobCartAPI.ViewModels.JobListViewModel.isLoading"/>
+        </member>
+        <member name="F:JobCartAPI.ViewModels.JobListViewModel.getJobListCommand">
+            <summary>The backing field for <see cref="P:JobCartAPI.ViewModels.JobListViewModel.GetJobListCommand"/>.</summary>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobListViewModel.GetJobListCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:JobCartAPI.ViewModels.JobListViewModel.GetJobList"/>.</summary>
+        </member>
+        <member name="F:JobCartAPI.ViewModels.JobListViewModel.addUpdateStudentCommand">
+            <summary>The backing field for <see cref="P:JobCartAPI.ViewModels.JobListViewModel.AddUpdateStudentCommand"/>.</summary>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobListViewModel.AddUpdateStudentCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:JobCartAPI.ViewModels.JobListViewModel.AddUpdateStudent"/>.</summary>
+        </member>
+        <member name="F:JobCartAPI.ViewModels.JobListViewModel.displayActionCommand">
+            <summary>The backing field for <see cref="P:JobCartAPI.ViewModels.JobListViewModel.DisplayActionCommand"/>.</summary>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobListViewModel.DisplayActionCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:JobCartAPI.ViewModels.JobListViewModel.DisplayAction(JobCartAPI.Entities.JobCart)"/>.</summary>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobViewModel.Job">
+            <inheritdoc cref="F:JobCartAPI.ViewModels.JobViewModel.job"/>
+        </member>
+        <member name="F:JobCartAPI.ViewModels.JobViewModel.addUpdateJobCommand">
+            <summary>The backing field for <see cref="P:JobCartAPI.ViewModels.JobViewModel.AddUpdateJobCommand"/>.</summary>
+        </member>
+        <member name="P:JobCartAPI.ViewModels.JobViewModel.AddUpdateJobCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:JobCartAPI.ViewModels.JobViewModel.AddUpdateJob"/>.</summary>
+        </member>
+    </members>
+</doc>

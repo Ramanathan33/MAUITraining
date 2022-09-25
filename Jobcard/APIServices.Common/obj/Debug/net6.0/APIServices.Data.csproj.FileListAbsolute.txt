@@ -1,0 +1,12 @@
+D:\Repos\JobCart\APIServices.Common\bin\Debug\net6.0\APIServices.Data.deps.json
+D:\Repos\JobCart\APIServices.Common\bin\Debug\net6.0\APIServices.Data.dll
+D:\Repos\JobCart\APIServices.Common\bin\Debug\net6.0\APIServices.Data.pdb
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\APIServices.Data.csproj.AssemblyReference.cache
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\APIServices.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\APIServices.Data.AssemblyInfoInputs.cache
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\APIServices.Data.AssemblyInfo.cs
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\APIServices.Data.csproj.CoreCompileInputs.cache
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\APIServices.Data.dll
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\refint\APIServices.Data.dll
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\APIServices.Data.pdb
+D:\Repos\JobCart\APIServices.Common\obj\Debug\net6.0\ref\APIServices.Data.dll
