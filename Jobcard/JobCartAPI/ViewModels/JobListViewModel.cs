@@ -1,70 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JobCartAPI.Entities;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JobCartAPI.DataServices;
+using JobCartAPI.Entities;
+using JobCartAPI.Helpers;
+using JobCartAPI.Services;
+using JobCartAPI.Validation;
 using JobCartAPI.Views;
 
 namespace JobCartAPI.ViewModels
 {
     public partial class JobListViewModel : ObservableObject
     {
-        const string editButtonText = "Update Job";
-        const string createButtonText = "Add Job";
-        public static List<JobCardModel> JobCartsListForSearch { get; private set; } = new List<JobCardModel>();
-        public ObservableCollection<JobCardModel> JobCarts { get; set; } = new ObservableCollection<JobCardModel>();
+        public static List<JobCardModel> JobCartsListForSearch { get; } = new List<JobCardModel>();
+
         private readonly IJobCardService _jobCardService;
+        private readonly List<JobCardModel> _allJobs = new List<JobCardModel>();
+
+        public ObservableCollection<JobCardModel> JobCarts { get; } = new ObservableCollection<JobCardModel>();
+        public IReadOnlyList<LookupItem> StatusFilters { get; } = JobLookups.StatusFilters;
 
         [ObservableProperty]
-        bool isRefreshing;
+        private string title;
 
         [ObservableProperty]
-        string title;
-        [ObservableProperty]
-        int id;
+        [NotifyPropertyChangedFor(nameof(ShowLoading))]
+        private bool isRefreshing;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsNotLoading))]
-        bool isLoading;
+        [NotifyPropertyChangedFor(nameof(ShowEmpty))]
+        [NotifyPropertyChangedFor(nameof(ShowLoading))]
+        private bool isLoading;
 
-        public bool IsNotLoading => !isLoading;
+        [ObservableProperty]
+        private LookupItem selectedStatusFilter = JobLookups.StatusFilters[0];
+
+        public bool ShowEmpty => !IsLoading && JobCarts.Count == 0;
+        public bool ShowLoading => IsLoading && !IsRefreshing;
+
+        public string EmptyMessage =>
+            _allJobs.Count > 0
+                ? "No job cards match this status."
+                : "No job cards yet. Tap Add Job to record a service visit.";
+
+        public string JobCountText
+        {
+            get
+            {
+                var visible = JobCarts.Count;
+                var total = _allJobs.Count;
+                if (SelectedStatusFilter != null && SelectedStatusFilter.Id >= 0 && visible != total)
+                    return $"{visible} of {total} jobs";
+
+                return visible == 1 ? "1 job" : $"{visible} jobs";
+            }
+        }
 
         public JobListViewModel(IJobCardService jobCardService)
         {
-            Title = "Job List";
             _jobCardService = jobCardService;
+            Title = "Job Cards";
         }
 
+        partial void OnSelectedStatusFilterChanged(LookupItem value) => PublishLists();
+
         [RelayCommand]
-        async Task GetJobList()
+        private async Task GetJobList()
         {
-            if (IsLoading) return;
+            if (IsLoading)
+            {
+                IsRefreshing = false;
+                return;
+            }
+
             try
             {
                 IsLoading = true;
-                JobCarts.Clear();
                 var jobList = await _jobCardService.GetJobList();
-                if (jobList?.Count > 0)
-                {
-                    jobList = jobList.OrderBy(f => f.CustomerName).ToList();
-                    foreach (var student in jobList)
-                    {
-                        jobList.Add(student);
-                    }
-                    JobCartsListForSearch.Clear();
-                    JobCartsListForSearch.AddRange(jobList);
-                }
+                _allJobs.Clear();
+                if (jobList != null)
+                    _allJobs.AddRange(jobList);
+
+                PublishLists();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Unable to get job list: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Failed to retrive list of jobs.", "Ok");
+                await Shell.Current.DisplayAlert("Error", "Failed to retrieve the job list.", "OK");
             }
             finally
             {
@@ -73,63 +96,76 @@ namespace JobCartAPI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task AddJob() => await OpenEditor(null);
 
         [RelayCommand]
-        public async void AddUpdateStudent()
+        private async Task EditJob(JobCardModel job)
         {
-            await AppShell.Current.GoToAsync(nameof(AddEditJob));
+            if (job == null || job.Id == 0)
+            {
+                await Shell.Current.DisplayAlert("Invalid job", "Please try again.", "OK");
+                return;
+            }
+
+            await OpenEditor(job);
         }
 
         [RelayCommand]
-        public async void DisplayAction(JobCardModel jobCartModel)
+        private async Task DeleteJob(JobCardModel job)
         {
-            var response = await AppShell.Current.DisplayActionSheet("Select Option", "OK", null, "Edit", "Delete");
-            if (response == "Edit")
+            if (job == null || job.Id == 0)
             {
-                var navParam = new Dictionary<string, object>();
-                navParam.Add("StudentDetail", jobCartModel);
-                await AppShell.Current.GoToAsync(nameof(AddEditJob), navParam);
+                await Shell.Current.DisplayAlert("Invalid job", "Please try again.", "OK");
+                return;
             }
-            else if (response == "Delete")
-            {
-                if (jobCartModel.Id == 0)
-                {
-                    await Shell.Current.DisplayAlert("Invalid Job", "Please try again", "Ok");
-                    return;
-                }
 
-                var delResponse = await _jobCardService.DeleteJob(jobCartModel);
-                if (delResponse > 0)
-                {
-                    await Shell.Current.DisplayAlert("Deletion Successful", "Record Job Successfully", "Ok");
-                    await GetJobList();
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Deletion Failed", "Please select valid job to delete.", "Ok");
-                }
+            var name = string.IsNullOrWhiteSpace(job.CustomerName) ? "this customer" : job.CustomerName.Trim();
+            var confirm = await Shell.Current.DisplayAlert("Delete job", $"Delete the job card for {name}?", "Delete", "Cancel");
+            if (!confirm)
+                return;
+
+            var deleted = await _jobCardService.DeleteJob(job);
+            if (deleted > 0)
+            {
+                await GetJobList();
+                return;
             }
+
+            await Shell.Current.DisplayAlert("Delete failed", "The job card could not be deleted.", "OK");
         }
 
+        private async Task OpenEditor(JobCardModel job)
+        {
+            var page = AppServices.GetRequired<AddEditJob>();
+            if (job != null)
+                page.LoadJob(job);
 
-        //[RelayCommand]
-        //Task ClearForm()
-        //{
-        //    AddEditButtonText = createButtonText;
-        //    JobCardModel.Id = 0;
-        //    JobCardModel.ModelNo = string.Empty;
-        //    JobCardModel.TypeOfService = 0;
-        //    JobCardModel.CustomerName = string.Empty;
-        //    JobCardModel.MobileNo = string.Empty;
-        //    JobCardModel.Complaints = string.Empty;
-        //    JobCardModel.DateOfService = string.Empty;
-        //    JobCardModel.DateOfDelivery = string.Empty;
-        //    JobCardModel.CreatedDate = string.Empty;
-        //    JobCardModel.Status = 0;
-        //    JobCardModel.ReceiverName = string.Empty;
-        //    JobCardModel.Comments = string.Empty;
-        //    return Task.CompletedTask;
-        //}
-        
+            await Shell.Current.Navigation.PushAsync(page);
+        }
+
+        private void PublishLists()
+        {
+            if (!MainThread.IsMainThread)
+            {
+                MainThread.BeginInvokeOnMainThread(PublishLists);
+                return;
+            }
+
+            var statusFilterId = SelectedStatusFilter?.Id ?? JobLookups.AllStatusesId;
+            var visible = JobCardRules.PrepareVisibleJobs(_allJobs, statusFilterId, job => job.Status, job => job.CustomerName);
+            var searchable = JobCardRules.PrepareVisibleJobs(_allJobs, JobLookups.AllStatusesId, job => job.Status, job => job.CustomerName);
+
+            JobCarts.Clear();
+            foreach (var job in visible)
+                JobCarts.Add(job);
+
+            JobCartsListForSearch.Clear();
+            JobCartsListForSearch.AddRange(searchable);
+
+            OnPropertyChanged(nameof(ShowEmpty));
+            OnPropertyChanged(nameof(EmptyMessage));
+            OnPropertyChanged(nameof(JobCountText));
+        }
     }
 }

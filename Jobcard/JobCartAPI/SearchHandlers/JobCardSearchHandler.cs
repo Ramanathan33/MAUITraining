@@ -1,40 +1,50 @@
-﻿using JobCartAPI.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using JobCartAPI.Entities;
+using JobCartAPI.Services;
+using JobCartAPI.Views;
 
 namespace JobCartAPI.SearchHandlers
 {
-    public class   JobCardSearchHandler : SearchHandler
+    public class JobCardSearchHandler : SearchHandler
     {
         public IList<JobCardModel> JobCards { get; set; }
-        public string NavigationRoute { get; set; }
-        public Type NavigationType { get; set; }
+
         protected override void OnQueryChanged(string oldValue, string newValue)
         {
             base.OnQueryChanged(oldValue, newValue);
 
-            if (string.IsNullOrWhiteSpace(newValue))
+            if (JobCards == null || string.IsNullOrWhiteSpace(newValue))
             {
                 ItemsSource = null;
+                return;
             }
-            else
-            {
-                ItemsSource = JobCards.Where(job => job.CustomerName.ToLower().Contains(newValue.ToLower())).ToList();
-            }
+
+            ItemsSource = JobCards.Where(job => Matches(job, newValue.Trim())).ToList();
         }
 
         protected override async void OnItemSelected(object item)
         {
             base.OnItemSelected(item);
-            var navParam = new Dictionary<string, object>();
-            navParam.Add("Job", item);
-            if (!string.IsNullOrWhiteSpace(NavigationRoute))
-            {
-                await Shell.Current.GoToAsync(NavigationRoute, navParam);
-            }
+            if (item is not JobCardModel job)
+                return;
+
+            var page = AppServices.GetRequired<AddEditJob>();
+            page.LoadJob(job);
+            await Shell.Current.Navigation.PushAsync(page);
         }
+
+        private static bool Matches(JobCardModel job, string query)
+        {
+            if (job == null)
+                return false;
+
+            return Contains(job.CustomerName, query)
+                || Contains(job.ModelNo, query)
+                || Contains(job.MobileNo, query);
+        }
+
+        private static bool Contains(string value, string query) =>
+            !string.IsNullOrWhiteSpace(value)
+            && value.Contains(query, StringComparison.OrdinalIgnoreCase);
     }
 }

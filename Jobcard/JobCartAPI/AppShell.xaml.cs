@@ -1,16 +1,20 @@
-﻿using JobCartAPI.DataServices;
-using JobCartAPI.Views;
-
-namespace JobCartAPI;
+﻿namespace JobCartAPI;
 
 public partial class AppShell : Shell
 {
-  
-
     public AppShell()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
+    }
 
-        Routing.RegisterRoute(nameof(AddEditJob), typeof(AddEditJob));
+    public void ShowJobList(JobListPage jobListPage)
+    {
+        Items.Clear();
+        Items.Add(new ShellContent
+        {
+            Title = "Job Cards",
+            Content = jobListPage,
+            Route = "JobListPage"
+        });
     }
 }

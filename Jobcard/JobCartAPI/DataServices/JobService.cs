@@ -1,62 +1,46 @@
 ﻿using JobCartAPI.Entities;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobCartAPI.DataServices
 {
-   
     public class JobService : IJobCardService
     {
-        SQLiteAsyncConnection _dbConnection;  
-        public string StatusMessage;
-        int result = 0;
+        private readonly string _dbPath;
+        private SQLiteAsyncConnection _dbConnection;
+        public string StatusMessage { get; private set; } = string.Empty;
+
         public JobService()
+            : this(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JobCards.db3"))
         {
-            
+        }
+
+        public JobService(string dbPath)
+        {
+            if (string.IsNullOrWhiteSpace(dbPath))
+                throw new ArgumentException("A database path is required.", nameof(dbPath));
+
+            _dbPath = dbPath;
         }
 
         private async Task Init()
         {
-            if(_dbConnection == null)
-            {
-                string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JobCards.db3");
-                _dbConnection = new SQLiteAsyncConnection(dbPath);
-                await _dbConnection.CreateTableAsync<JobCardModel>();
-            }
+            if (_dbConnection != null)
+                return;
+
+            _dbConnection = new SQLiteAsyncConnection(_dbPath);
+            await _dbConnection.CreateTableAsync<JobCardModel>();
         }
 
         public async Task<List<JobCardModel>> GetJobList()
         {
-            try
-            {
-                await Init();
-                return await _dbConnection.Table<JobCardModel>().ToListAsync();
-            }
-            catch (Exception)
-            {
-                StatusMessage = "Failed to retrieve data.";
-            }
-
-            return new List<JobCardModel>();
+            await Init();
+            return await _dbConnection.Table<JobCardModel>().ToListAsync();
         }
 
         public async Task<JobCardModel> GetJob(int id)
         {
-            try
-            {
-                await Init();
-                return await _dbConnection.Table<JobCardModel>().FirstOrDefaultAsync(q => q.Id == id);
-            }
-            catch (Exception)
-            {
-                StatusMessage = "Failed to retrieve data.";
-            }
-
-            return null;
+            await Init();
+            return await _dbConnection.Table<JobCardModel>().FirstOrDefaultAsync(job => job.Id == id);
         }
 
         public async Task<int> DeleteJob(JobCardModel jobCardModel)
@@ -64,14 +48,21 @@ namespace JobCartAPI.DataServices
             try
             {
                 await Init();
-                return await  _dbConnection.Table<JobCardModel>().DeleteAsync(q => q.Id == jobCardModel.Id);
+                if (jobCardModel == null || jobCardModel.Id <= 0)
+                {
+                    StatusMessage = "Invalid job record.";
+                    return 0;
+                }
+
+                var deleted = await _dbConnection.Table<JobCardModel>().DeleteAsync(job => job.Id == jobCardModel.Id);
+                StatusMessage = deleted == 0 ? "Delete failed." : "Delete successful.";
+                return deleted;
             }
             catch (Exception)
             {
                 StatusMessage = "Failed to delete data.";
+                return 0;
             }
-
-            return 0;
         }
 
         public async Task<int> AddJob(JobCardModel jobCart)
@@ -79,19 +70,21 @@ namespace JobCartAPI.DataServices
             try
             {
                 await Init();
-
                 if (jobCart == null)
-                    throw new Exception("Invalid Car Record");
+                {
+                    StatusMessage = "Invalid job record.";
+                    return 0;
+                }
 
-                result = await _dbConnection.InsertAsync(jobCart);
-                StatusMessage = result == 0 ? "Insert Failed" : "Insert Successful";
+                var inserted = await _dbConnection.InsertAsync(jobCart);
+                StatusMessage = inserted == 0 ? "Insert failed." : "Insert successful.";
+                return inserted;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                StatusMessage = "Failed to Insert data.";
+                StatusMessage = "Failed to insert data.";
+                return 0;
             }
-
-            return result;
         }
 
         public async Task<int> UpdateJob(JobCardModel jobCart)
@@ -99,19 +92,21 @@ namespace JobCartAPI.DataServices
             try
             {
                 await Init();
+                if (jobCart == null || jobCart.Id <= 0)
+                {
+                    StatusMessage = "Invalid job record.";
+                    return 0;
+                }
 
-                if (jobCart == null)
-                    throw new Exception("Invalid Car Record");
-
-                result = await _dbConnection.UpdateAsync(jobCart);
-                StatusMessage = result == 0 ? "Update Failed" : "Update Successful";
+                var updated = await _dbConnection.UpdateAsync(jobCart);
+                StatusMessage = updated == 0 ? "Update failed." : "Update successful.";
+                return updated;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                StatusMessage = "Failed to Update data.";
+                StatusMessage = "Failed to update data.";
+                return 0;
             }
-
-            return result;
         }
     }
 }

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServices", "APIServices\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIServices.Data", "APIServices.Common\APIServices.Data.csproj", "{F110D63F-AC18-4A91-AB2C-5E99971462E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobCartAPI.Tests", "JobCartAPI.Tests\JobCartAPI.Tests.csproj", "{857841C4-3082-4A8C-834A-2AA8E2BCE646}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{F110D63F-AC18-4A91-AB2C-5E99971462E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F110D63F-AC18-4A91-AB2C-5E99971462E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F110D63F-AC18-4A91-AB2C-5E99971462E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{857841C4-3082-4A8C-834A-2AA8E2BCE646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{857841C4-3082-4A8C-834A-2AA8E2BCE646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{857841C4-3082-4A8C-834A-2AA8E2BCE646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{857841C4-3082-4A8C-834A-2AA8E2BCE646}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

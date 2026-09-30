@@ -1,38 +1,97 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:JobCartAPI.ViewModels"
              x:Class="JobCartAPI.Views.AddEditJob"
-             Title="Add Edit Job">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="TextColor" Value="SlateGray" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    <StackLayout Margin="10" Spacing="15">
-        <VerticalStackLayout>
-            <Label Text="Customer Name"  />
-            <Entry Text="{Binding Job.CustomerName}" Placeholder="First Name" />
-            <BoxView HeightRequest="0.8" Color="Gray" />
+             x:DataType="viewModels:JobViewModel"
+             Title="{Binding PageTitle}">
+    <ScrollView>
+        <VerticalStackLayout Margin="16" Spacing="14" Padding="0,8,0,24">
+            <Label Text="Customer" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Customer name" />
+                <Entry Text="{Binding Job.CustomerName}" Placeholder="Customer name" MaxLength="80" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Mobile number" />
+                <Entry Text="{Binding Job.MobileNo}" Placeholder="Mobile number" Keyboard="Telephone" MaxLength="20" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Location" />
+                <Entry Text="{Binding Job.Location}" Placeholder="Location" MaxLength="80" />
+            </VerticalStackLayout>
+
+            <Label Text="Device" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" Margin="0,8,0,0" />
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Model number" />
+                <Entry Text="{Binding Job.ModelNo}" Placeholder="Model number" MaxLength="40" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Type of service" />
+                <Picker Title="Select type of service"
+                        ItemsSource="{Binding ServiceTypes}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedServiceType}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Complaints" />
+                <Editor Text="{Binding Job.Complaints}" Placeholder="What needs attention" HeightRequest="90" MaxLength="500" />
+            </VerticalStackLayout>
+
+            <Label Text="Schedule" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" Margin="0,8,0,0" />
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Date of service" />
+                <DatePicker Date="{Binding ServiceDate}" Format="yyyy-MM-dd" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Date of delivery" />
+                <DatePicker Date="{Binding DeliveryDate}" Format="yyyy-MM-dd" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Status" />
+                <Picker Title="Select status"
+                        ItemsSource="{Binding Statuses}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedStatus}" />
+            </VerticalStackLayout>
+
+            <Label Text="Completion" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" Margin="0,8,0,0" />
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Received by" />
+                <Entry Text="{Binding Job.ReceiverName}" Placeholder="Person who received the item" MaxLength="80" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Signature name" />
+                <Entry Text="{Binding Job.Signature}" Placeholder="Name of the person who signed" MaxLength="80" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Comments" />
+                <Editor Text="{Binding Job.Comments}" Placeholder="Notes" HeightRequest="90" MaxLength="500" />
+            </VerticalStackLayout>
+
+            <Label Text="{Binding ValidationMessage}"
+                   TextColor="#B00020"
+                   IsVisible="{Binding HasValidationMessage}" />
+
+            <Button Text="{Binding SaveButtonText}"
+                    Command="{Binding AddUpdateJobCommand}"
+                    IsEnabled="{Binding IsNotSaving}" />
+            <Button Text="Cancel"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}" />
         </VerticalStackLayout>
-
-
-        <VerticalStackLayout>
-            <Label Text="Type of Service" />
-            <Entry  Text="{Binding Job.TypeOfService}" Placeholder="Type of Service" />
-            <BoxView HeightRequest="0.8" Color="Gray" />
-        </VerticalStackLayout>
-
-
-        <VerticalStackLayout>
-            <Label Text="Model No" />
-            <Entry Text="{Binding Job.ModelNo}" Placeholder="Model No" />
-            <BoxView HeightRequest="0.8" Color="Gray" />
-        </VerticalStackLayout>
-
-
-        <Button Text="Save" Command="{Binding AddUpdateJobCommand}"/>
-    </StackLayout>
+    </ScrollView>
 </ContentPage>
