@@ -1,9 +1,6 @@
 ﻿using JobCartAPI.DataServices;
 using JobCartAPI.ViewModels;
 using JobCartAPI.Views;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Reflection;
 
 namespace JobCartAPI;
 
@@ -11,9 +8,10 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();       
-        string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "JobCards.db3");
-    
+		SQLitePCL.Batteries_V2.Init();
+
+		var builder = MauiApp.CreateBuilder();
+
         builder
             .UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
@@ -22,8 +20,6 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-       // builder.Services.AddSingleton(s => ActivatorUtilities.CreateInstance <JobService> (s, dbPath));
-        // Services
         builder.Services.AddSingleton<IJobCardService, JobService>();
 
         //Views Registration
