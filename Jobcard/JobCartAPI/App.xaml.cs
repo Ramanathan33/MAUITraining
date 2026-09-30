@@ -12,7 +12,7 @@ public partial class App : Application
         _services = services;
     }
 
-    protected override Window CreateWindow(IActivationState? activationState)
+    protected override Window CreateWindow(IActivationState activationState)
     {
         // Create pages after resources load so StaticResource lookups in XAML succeed.
         var shell = _services.GetRequiredService<AppShell>();

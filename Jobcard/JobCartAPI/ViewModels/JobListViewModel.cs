@@ -87,7 +87,7 @@ namespace JobCartAPI.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Unable to get job list: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Failed to retrieve the job list.", "OK");
+                await Shell.Current.DisplayAlertAsync("Error", "Failed to retrieve the job list.", "OK");
             }
             finally
             {
@@ -104,7 +104,7 @@ namespace JobCartAPI.ViewModels
         {
             if (job == null || job.Id == 0)
             {
-                await Shell.Current.DisplayAlert("Invalid job", "Please try again.", "OK");
+                await Shell.Current.DisplayAlertAsync("Invalid job", "Please try again.", "OK");
                 return;
             }
 
@@ -116,12 +116,12 @@ namespace JobCartAPI.ViewModels
         {
             if (job == null || job.Id == 0)
             {
-                await Shell.Current.DisplayAlert("Invalid job", "Please try again.", "OK");
+                await Shell.Current.DisplayAlertAsync("Invalid job", "Please try again.", "OK");
                 return;
             }
 
             var name = string.IsNullOrWhiteSpace(job.CustomerName) ? "this customer" : job.CustomerName.Trim();
-            var confirm = await Shell.Current.DisplayAlert("Delete job", $"Delete the job card for {name}?", "Delete", "Cancel");
+            var confirm = await Shell.Current.DisplayAlertAsync("Delete job", $"Delete the job card for {name}?", "Delete", "Cancel");
             if (!confirm)
                 return;
 
@@ -132,7 +132,7 @@ namespace JobCartAPI.ViewModels
                 return;
             }
 
-            await Shell.Current.DisplayAlert("Delete failed", "The job card could not be deleted.", "OK");
+            await Shell.Current.DisplayAlertAsync("Delete failed", "The job card could not be deleted.", "OK");
         }
 
         private async Task OpenEditor(JobCardModel job)

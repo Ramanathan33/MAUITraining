@@ -98,7 +98,7 @@ namespace JobCartAPI.ViewModels
 
                 if (response > 0)
                 {
-                    await Shell.Current.DisplayAlert(isUpdate ? "Job updated" : "Job saved", "The job card was saved.", "OK");
+                    await Shell.Current.DisplayAlertAsync(isUpdate ? "Job updated" : "Job saved", "The job card was saved.", "OK");
                     await Shell.Current.Navigation.PopAsync();
                     return;
                 }
