@@ -17,7 +17,7 @@
             NavigationRoute="AddEditJob"
             JobCards="{x:Static viewModels:JobListViewModel.JobCartsListForSearch}">
             <searchHandlers:JobCardSearchHandler.ItemTemplate>
-                <DataTemplate x:DataType="models:JobCart">
+                <DataTemplate x:DataType="models:JobCardModel">
                     <Grid Margin="5" RowDefinitions="Auto" ColumnDefinitions="40,Auto">
                         <Image Grid.Row="0" Grid.Column="0" Source="user" HeightRequest="35" WidthRequest="35" />
                         <Label Grid.Row="0" Grid.Column="1" Text="{Binding CustomerName}" FontSize="18" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
@@ -32,7 +32,7 @@
 
         <CollectionView ItemsSource="{Binding JobCarts}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:JobCart">
+                <DataTemplate x:DataType="models:JobCardModel">
                     <Frame Margin="10" Padding="10">
                         <StackLayout >
                             <HorizontalStackLayout Spacing="10">
